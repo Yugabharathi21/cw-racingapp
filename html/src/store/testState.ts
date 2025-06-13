@@ -5,7 +5,7 @@ export const testState = {
   "currentPage": "racing",
   "currentTab": "current",
   "showOnlyCurated": true,
-  activeRace: { },
+  activeRace: {  },
   /* currentCheckpoint: 2,
     totalCheckpoints: 12,
     totalLaps: 3,
