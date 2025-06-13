@@ -50,10 +50,10 @@ export const testState = {
     checkpoint: 4,
     totalCheckpoints: 12,
     raceName: "Test Track",
-    InRace: false,       // ✅ Enables RaceHud
-    InCreator: true     // ❌ Disables EditorHud
+    InRace: true,       // ✅ Enables RaceHud
+    InCreator: false     // ❌ Disables EditorHud
   },
-  "countdown": -1,
+  "countdown": 10,
   "buttons": {},
   "creatorData": {},
   "baseData": {

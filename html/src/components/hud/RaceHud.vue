@@ -1,103 +1,107 @@
 <template>
   <div class="race">
-    <div class="race__content">
-      <Transition name="slide-fade">
-        <div class="race__positions left-side">
-          <RacerList :racers="globalStore.activeRace.positions" />
+    <div class="race__container">
+      <!-- Left Side: Position List -->
+      <div class="race__positions">
+        <RacerList :racers="globalStore.activeRace.positions" />
+      </div>
+
+      <!-- Right Side: Race Info -->
+      <div class="race__info">
+        <!-- Track Info -->
+        <div class="info-block track-info">
+          <div class="track-icon">
+            <v-icon>mdi-flag-checkered</v-icon>
+          </div>
+          <div class="track-name">{{ globalStore.activeRace.raceName }}</div>
         </div>
-      </Transition>
 
-      <Transition name="slide-fade">
-        <div class="race__info right-side">
-          <div class="info-group">
-            <div class="track-name">
-              <div class="track-name__value">{{ globalStore.activeRace.raceName }}</div>
-            </div>
-
-            <div class="position-badge" v-if="globalStore.activeRace.totalRacers && globalStore.activeRace.totalRacers !== 1">
-              <div class="position-badge__value">
-                <TransitionGroup name="number-change" tag="div" class="number-wrapper">
+        <!-- Race Stats -->
+        <div class="info-block stats">
+          <div class="stats-grid">
+            <!-- Position -->
+            <div class="stat-module position" v-if="globalStore.activeRace.totalRacers && globalStore.activeRace.totalRacers !== 1">
+              <div class="stat-icon">
+                <v-icon>mdi-trophy-outline</v-icon>
+              </div>
+              <div class="stat-content">
+                <TransitionGroup name="number-slide" tag="div" class="position-value">
                   <span :key="'pos' + globalStore.activeRace.position" class="current">
                     {{ globalStore.activeRace.position }}
                   </span>
                 </TransitionGroup>
-                <span class="separator">/</span>
+                <span class="stat-divider">/</span>
                 <span class="total">{{ globalStore.activeRace.totalRacers }}</span>
               </div>
             </div>
-          </div>
 
-          <div class="info-group compact">
-            <div class="metric-compact checkpoint">
-              <v-icon icon="mdi-flag-checkered" class="metric-icon"></v-icon>
-              <div class="metric-value">
-                <TransitionGroup name="number-change" tag="div" class="number-wrapper">
-                  <span :key="'cp' + globalStore.activeRace.currentCheckpoint">
-                    {{ globalStore.activeRace.currentCheckpoint }}
-                  </span>
-                </TransitionGroup>
-                <span>/{{ globalStore.activeRace.totalCheckpoints }}</span>
+            <!-- Checkpoints -->
+            <div class="stat-module checkpoints">
+              <div class="stat-icon">
+                <v-icon>mdi-map-marker-path</v-icon>
+              </div>
+              <div class="stat-content">
+                {{ globalStore.activeRace.currentCheckpoint }}/{{ globalStore.activeRace.totalCheckpoints }}
               </div>
             </div>
 
-            <div class="metric-compact lap">
-              <v-icon icon="mdi-cached" :class="['metric-icon', { 'spin': globalStore.activeRace.currentLap > 1 }]"></v-icon>
-              <div class="metric-value">
-                <TransitionGroup name="number-change" tag="div" class="number-wrapper">
-                  <span :key="'lap' + globalStore.activeRace.currentLap">
-                    {{ lapText }}
-                  </span>
-                </TransitionGroup>
+            <!-- Lap Counter -->
+            <div class="stat-module laps">
+              <div class="stat-icon">
+                <v-icon>mdi-refresh</v-icon>
               </div>
-            </div>
-
-            <div class="time-group">
-              <div class="time-item">
-                <v-icon icon="mdi-timer-sync-outline" class="pulse time-icon"></v-icon>
-                <TransitionGroup name="number-change" tag="div" class="number-wrapper">
-                  <span :key="'time' + globalStore.activeRace.time" class="time-value">
-                    {{ msToHMS(globalStore.activeRace.time) }}
-                  </span>
-                </TransitionGroup>
-              </div>
-              <div class="time-item">
-                <v-icon icon="mdi-timer-outline" class="time-icon"></v-icon>
-                <TransitionGroup name="number-change" tag="div" class="number-wrapper">
-                  <span :key="'total' + globalStore.activeRace.totalTime" class="time-value">
-                    {{ msToHMS(globalStore.activeRace.totalTime) }}
-                  </span>
-                </TransitionGroup>
-              </div>
-              <div class="time-item best-lap">
-                <v-icon icon="mdi-timer-star-outline" class="glow time-icon"></v-icon>
-                <TransitionGroup name="number-change" tag="div" class="number-wrapper">
-                  <span :key="'best' + globalStore.activeRace.bestLap" class="time-value">
-                    {{ msToHMS(globalStore.activeRace.bestLap) }}
-                  </span>
+              <div class="stat-content">
+                <TransitionGroup name="number-slide" tag="div" class="lap-value">
+                  <span :key="'lap' + globalStore.activeRace.currentLap">{{ lapText }}</span>
                 </TransitionGroup>
               </div>
             </div>
           </div>
 
-          <div class="ghost-indicator" v-if="globalStore.activeRace.ghosted">
-            <v-icon icon="mdi-ghost-outline" class="float ghost-icon"></v-icon>
+          <!-- Times -->
+          <div class="times-block">
+            <div class="time-module current">
+              <div class="time-icon">
+                <v-icon>mdi-clock-outline</v-icon>
+              </div>
+              <span class="time-value">{{ msToHMS(globalStore.activeRace.time) }}</span>
+            </div>
+            <div class="time-module total">
+              <div class="time-icon">
+                <v-icon>mdi-timer-outline</v-icon>
+              </div>
+              <span class="time-value">{{ msToHMS(globalStore.activeRace.totalTime) }}</span>
+            </div>
+            <div class="time-module best">
+              <div class="time-icon">
+                <v-icon>mdi-star-outline</v-icon>
+              </div>
+              <span class="time-value">{{ msToHMS(globalStore.activeRace.bestLap) }}</span>
+            </div>
           </div>
         </div>
-      </Transition>
+
+        <!-- Ghost Mode Indicator -->
+        <div v-if="globalStore.activeRace.ghosted" class="ghost-indicator">
+          <v-icon size="small">mdi-ghost</v-icon>
+          <span>GHOST</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import RacerList from "./RacerList.vue";
 import { useGlobalStore } from "@/store/global";
-import { msToHMS } from "@/helpers/msToHMS";
 import { computed } from "vue";
-const globalStore = useGlobalStore();
+import { msToHMS } from "@/helpers/msToHMS";
 import { translate } from "@/helpers/translate";
+import RacerList from "./RacerList.vue";
+
+const globalStore = useGlobalStore();
 
 const lapText = computed(() => {
-  if (globalStore.activeRace.totalLaps === 0) return "Sprint";
+  if (globalStore.activeRace.totalLaps === 0) return "SPRINT";
   else if (globalStore.activeRace.totalLaps === -1)
     return `${globalStore.activeRace.currentLap}/-`;
   return `${globalStore.activeRace.currentLap}/${globalStore.activeRace.totalLaps}`;
@@ -105,7 +109,7 @@ const lapText = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables.scss';
+@use '@/styles/variables' as v;
 
 .race {
   position: fixed;
@@ -114,287 +118,219 @@ const lapText = computed(() => {
   right: 0;
   z-index: 100;
   font-family: 'Rajdhani', sans-serif;
-  pointer-events: none;
 }
 
-.race__content {
+.race__container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 1vw;
-  max-width: 100vw;
-}
-
-.left-side {
-  pointer-events: auto;
-  margin-left: 1vw;
-}
-
-.right-side {
-  pointer-events: auto;
-  margin-right: 1vw;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.info-group {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  padding: 0.5rem 1rem;
   gap: 1rem;
-
-  &.compact {
-    gap: 0.75rem;
-  }
 }
 
-.track-name {
-  text-align: right;
-  
-  &__value {
-    font-size: 1.1rem;
-    color: $text-color;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-shadow: 0 0 10px rgba($primary-color, 0.5);
-  }
+.race__positions {
+  flex: 0 1 auto;
 }
 
-.position-badge {
-  background: linear-gradient(
-    135deg,
-    rgba($primary-color, 0.9),
-    rgba($primary-color-dark, 0.8)
-  );
-  padding: 0.25rem 0.75rem;
-  border-radius: $border-radius;
-  border: 1px solid rgba($primary-color-light, 0.3);
-  box-shadow: 0 0 15px rgba($primary-color, 0.2);
-  animation: pulse 2s infinite;
-
-  &__value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-color;
-    line-height: 1;
-    text-shadow: 0 0 10px rgba($text-color, 0.5);
-
-    .current {
-      color: $text-color;
-    }
-
-    .separator {
-      opacity: 0.5;
-      margin: 0 0.2em;
-      font-size: 0.9em;
-    }
-
-    .total {
-      opacity: 0.7;
-      font-size: 0.9em;
-    }
-  }
-}
-
-.metric-compact {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: $border-radius;
-  background: rgba($background-color-lighter, 0.3);
-  backdrop-filter: blur(5px);
-
-  .metric-icon {
-    color: $primary-color;
-    font-size: 1.2rem;
-  }
-
-  .metric-value {
-    color: $text-color;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-}
-
-.time-group {
+.race__info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
   align-items: flex-end;
 }
 
-.time-item {
+.info-block {
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  min-width: 160px;
+  transition: all 0.3s ease;
+}
+
+.track-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.15rem 0.5rem;
-  border-radius: $border-radius;
-  background: rgba($background-color-lighter, 0.2);
-  backdrop-filter: blur(5px);
+  padding: 0.3rem 0.6rem;
+
+  .track-icon {
+    color: v.$primary-color-light;
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .track-name {
+    color: v.$text-color;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.9;
+  }
+}
+
+.stats {
+  padding: 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.4rem;
+}
+
+.stat-module {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.4rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .stat-icon {
+    color: v.$primary-color-light;
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .stat-content {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: v.$text-color;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  &.position {
+    grid-column: span 2;
+    background: rgba(v.$primary-color, 0.1);
+    
+    .stat-content {
+      font-size: 1.4rem;
+      color: v.$primary-color-light;
+    }
+    
+    .stat-divider {
+      opacity: 0.3;
+      margin: 0 0.1rem;
+      color: v.$text-color;
+    }
+    
+    .total {
+      font-size: 0.8em;
+      opacity: 0.5;
+      color: v.$text-color;
+    }
+  }
+
+  &.checkpoints {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+  }
+
+  &.laps .stat-content {
+    color: v.$primary-color-light;
+    font-weight: 700;
+  }
+}
+
+.times-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.3rem;
+  padding-top: 0.3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.time-module {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.15rem 0.3rem;
+  transition: all 0.2s ease;
 
   .time-icon {
-    color: $primary-color;
-    font-size: 1rem;
+    color: v.$primary-color-light;
+    opacity: 0.6;
+    font-size: 0.8rem;
   }
 
   .time-value {
-    color: $text-color;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: rgba(v.$text-color, 0.8);
+    letter-spacing: 0.05em;
   }
 
-  &.best-lap {
-    color: $primary-color-light;
-    .time-value {
-      color: $primary-color-light;
+  &.best {
+    .time-icon {
+      color: v.$primary-color-light;
+      opacity: 0.9;
     }
+    .time-value {
+      color: v.$primary-color-light;
+      font-weight: 600;
+    }
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
   }
 }
 
 .ghost-indicator {
-  align-self: flex-end;
-  padding: 0.25rem;
-  color: rgba($text-color, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: v.$text-color;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  letter-spacing: 0.15em;
+  opacity: 0.6;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
   
-  .ghost-icon {
-    font-size: 1.2rem;
+  .v-icon {
+    font-size: 0.8rem;
+    opacity: 0.8;
   }
 }
 
 // Animations
-@keyframes pulse {
-  0% { box-shadow: 0 0 15px rgba($primary-color, 0.2); }
-  50% { box-shadow: 0 0 20px rgba($primary-color, 0.4); }
-  100% { box-shadow: 0 0 15px rgba($primary-color, 0.2); }
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes glow {
-  0% { filter: drop-shadow(0 0 2px rgba($primary-color-light, 0.5)); }
-  50% { filter: drop-shadow(0 0 5px rgba($primary-color-light, 0.8)); }
-  100% { filter: drop-shadow(0 0 2px rgba($primary-color-light, 0.5)); }
-}
-
-.spin {
-  animation: spin 2s linear infinite;
-}
-
-.pulse {
-  animation: pulse 2s infinite;
-}
-
-.float {
-  animation: float 3s ease infinite;
-}
-
-.glow {
-  animation: glow 2s infinite;
-}
-
-// Transitions
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.3s ease;
-}
-
-.slide-fade-enter-from {
-  opacity: 0;
-  transform: translateX(-50px);
-}
-
-.slide-fade-leave-to {
-  opacity: 0;
-  transform: translateX(50px);
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-// Add these new styles for number transitions
-.number-wrapper {
-  display: inline-flex;
-  position: relative;
-  overflow: hidden;
-  vertical-align: bottom;
-}
-
-.number-change-enter-active,
-.number-change-leave-active {
-  transition: all 0.3s ease;
-}
-
-.number-change-enter-from {
-  opacity: 0;
-  transform: translateY(-100%);
-}
-
-.number-change-leave-to {
-  opacity: 0;
-  transform: translateY(100%);
+.number-slide-enter-active,
+.number-slide-leave-active {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: absolute;
-  left: 0;
 }
 
-.number-change-move {
-  transition: transform 0.3s ease;
+.number-slide-enter-from {
+  opacity: 0;
+  transform: translateY(-100%) scale(0.95);
 }
 
-// Update position badge styles
-.position-badge {
-  // ... existing styles ...
-
-  &__value {
-    // ... existing styles ...
-    
-    .number-wrapper {
-      display: inline-flex;
-      min-width: 1.2em;
-      justify-content: center;
-    }
-    
-    .current {
-      position: relative;
-      display: inline-block;
-    }
-  }
+.number-slide-leave-to {
+  opacity: 0;
+  transform: translateY(100%) scale(0.95);
 }
 
-// Update metric value styles
-.metric-value {
-  .number-wrapper {
-    display: inline-flex;
-    min-width: 1.2em;
-    justify-content: center;
-  }
+.position-value,
+.lap-value {
+  position: relative;
+  display: inline-block;
+  min-width: 1.2em;
+  text-align: center;
 }
-
-// Update time value styles
-.time-value {
-  .number-wrapper {
-    display: inline-flex;
-    min-width: 3.5em;
-    justify-content: flex-end;
-  }
-}
-
-// Add flash animation for value changes
-@keyframes flash {
-  0% { color: $primary-color-light; }
-  100% { color: $text-color; }
-}
-
-.flash {
-  animation: flash 0.5s ease-out;
-}
-
-// ... rest of existing styles ...
 </style>

@@ -84,7 +84,7 @@ const globalStore = useGlobalStore();
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables.scss';
+@use '@/styles/variables' as v;
 
 .editor {
   position: fixed;
@@ -101,9 +101,9 @@ const globalStore = useGlobalStore();
 }
 
 .editor__panel {
-  background: rgba($background-color-dark, 0.8);
+  background: rgba(v.$background-color-dark, 0.8);
   backdrop-filter: blur(8px);
-  border-radius: $border-radius;
+  border-radius: v.$border-radius;
   padding: 0.6rem;
 }
 
@@ -124,17 +124,17 @@ const globalStore = useGlobalStore();
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    color: rgba($text-color, 0.7);
+    color: rgba(v.$text-color, 0.7);
     font-size: 0.8rem;
 
     .info-icon {
-      color: $primary-color;
+      color: v.$primary-color;
       opacity: 0.8;
     }
   }
 
   .info-value {
-    color: $text-color;
+    color: v.$text-color;
     font-size: 0.8rem;
     font-weight: 500;
   }
@@ -159,14 +159,14 @@ const globalStore = useGlobalStore();
     }
 
     .distance-value {
-      color: $primary-color;
+      color: v.$primary-color;
       margin-left: 0.3rem;
     }
   }
 }
 
 .control-label {
-  color: rgba($text-color, 0.8);
+  color: rgba(v.$text-color, 0.8);
   font-size: 0.8rem;
   display: flex;
   align-items: center;
@@ -174,32 +174,32 @@ const globalStore = useGlobalStore();
 }
 
 .key {
-  background: rgba($background-color-lighter, 0.3);
-  color: $text-color;
+  background: rgba(v.$background-color-lighter, 0.3);
+  color: v.$text-color;
   padding: 0.15rem 0.4rem;
-  border-radius: $border-radius;
+  border-radius: v.$border-radius;
   font-size: 0.75rem;
   min-width: 1.5rem;
   text-align: center;
-  border: 1px solid rgba($text-color, 0.1);
+  border: 1px solid rgba(v.$text-color, 0.1);
   transition: all 0.2s ease;
 
   &.success-key {
-    background: rgba($positive-color, 0.15);
-    border-color: rgba($positive-color, 0.3);
-    color: $positive-color;
+    background: rgba(v.$positive-color, 0.15);
+    border-color: rgba(v.$positive-color, 0.3);
+    color: v.$positive-color;
   }
 
   &.danger-key {
-    background: rgba($negative-color, 0.15);
-    border-color: rgba($negative-color, 0.3);
-    color: $negative-color;
+    background: rgba(v.$negative-color, 0.15);
+    border-color: rgba(v.$negative-color, 0.3);
+    color: v.$negative-color;
   }
 
   &.info-key {
-    background: rgba($primary-color, 0.15);
-    border-color: rgba($primary-color, 0.3);
-    color: $primary-color;
+    background: rgba(v.$primary-color, 0.15);
+    border-color: rgba(v.$primary-color, 0.3);
+    color: v.$primary-color;
   }
 
   &:hover {
@@ -211,7 +211,7 @@ const globalStore = useGlobalStore();
 .actions-group {
   margin-top: 0.4rem;
   padding-top: 0.4rem;
-  border-top: 1px solid rgba($text-color, 0.1);
+  border-top: 1px solid rgba(v.$text-color, 0.1);
   display: flex;
   flex-direction: column;
   gap: 0.4rem;

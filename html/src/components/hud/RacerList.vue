@@ -116,53 +116,110 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables.scss';
+@use '@/styles/variables' as v;
 
 .racers-holder {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
-  padding: 0.5em;
-  font-family: 'Formula1', sans-serif;
+  gap: 0.35em;
+  padding: 0.4em;
+  font-family: 'Rajdhani', sans-serif;
+  position: relative;
+  width: max-content;
+  min-width: 280px;
+}
+
+@keyframes borderGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .box {
-  background: linear-gradient(
-    to right,
-    rgba($background-color-lighter, 0.95),
-    rgba($background-color-lighter, 0.7)
-  );
+  background: rgba(0, 0, 0, 0.75);
   width: 100%;
-  font-size: 1em;
-  height: 3em;
+  font-size: 0.95em;
+  height: 2.6em;
   display: flex;
   align-items: center;
-  padding: 0 0.5em;
-  border-left: 4px solid $primary-color;
-  border-radius: 0 $border-radius $border-radius 0;
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
+  padding: 0 0.4em;
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Glowing border effect
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 4px;
+    background: linear-gradient(
+      90deg,
+      rgba(v.$primary-color, 0.3),
+      rgba(v.$primary-color-light, 0.1),
+      rgba(v.$primary-color, 0.3)
+    );
+    background-size: 200% 100%;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderGlow 4s linear infinite;
+  }
+
+  &:hover {
+    transform: translateX(2px);
+    background: rgba(0, 0, 0, 0.85);
+  }
 
   &.me {
     background: linear-gradient(
-      to right,
-      rgba($primary-color, 0.95),
-      rgba($primary-color-dark, 0.8)
+      90deg,
+      rgba(v.$primary-color, 0.15),
+      rgba(0, 0, 0, 0.75)
     );
-    border-left-color: $secondary-color;
+
+    &::before {
+      background: linear-gradient(
+        90deg,
+        rgba(v.$primary-color-light, 0.5),
+        rgba(v.$primary-color, 0.3),
+        rgba(v.$primary-color-light, 0.5)
+      );
+      background-size: 200% 100%;
+    }
+
     .number {
-      background: $secondary-color;
-      color: $background-color-dark;
+      background: v.$primary-color-light;
+      color: rgba(0, 0, 0, 0.9);
+      font-weight: 700;
     }
     .name {
-      color: $text-color;
+      color: v.$primary-color-light;
     }
   }
 
   &.finished {
-    border-left-color: $positive-color;
+    &::before {
+      background: linear-gradient(
+        90deg,
+        rgba(v.$positive-color, 0.3),
+        rgba(v.$positive-color, 0.1),
+        rgba(v.$positive-color, 0.3)
+      );
+      background-size: 200% 100%;
+    }
     .number {
-      background: $positive-color;
+      background: v.$positive-color;
     }
   }
 }
@@ -170,22 +227,22 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
 .position-wrapper {
   display: flex;
   align-items: center;
-  gap: 0.5em;
-  min-width: 4em;
+  gap: 0.3em;
+  min-width: 3.6em;
 }
 
 .number {
-  background: $primary-color;
-  color: $text-color;
-  width: 2em;
-  height: 2em;
+  background: rgba(v.$primary-color, 0.9);
+  color: v.$text-color;
+  width: 1.8em;
+  height: 1.8em;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: $border-radius;
-  font-weight: bold;
-  font-size: 1.1em;
-  transition: background-color 0.3s ease;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 1em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .racer-info {
@@ -193,80 +250,86 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
   align-items: center;
   justify-content: space-between;
   flex: 1;
-  padding: 0 1em;
+  padding: 0 0.6em;
+  gap: 0.5em;
 }
 
 .name {
-  color: $text-color;
-  font-weight: 600;
+  color: v.$text-color;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  max-width: 20em;
+  letter-spacing: 0.05em;
+  max-width: 18em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.2s ease;
 }
 
 .difference {
-  color: $text-color;
+  color: rgba(v.$text-color, 0.8);
   font-weight: 500;
-  font-size: 0.9em;
-  min-width: 5em;
+  font-size: 0.85em;
+  min-width: 4.5em;
   text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.02em;
 }
 
 .position-change-indicator {
-  width: 1.2em;
+  width: 1em;
   text-align: center;
-  transition: all 0.3s ease;
+  font-size: 0.8em;
+  opacity: 0.9;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   &.position-up {
-    color: $positive-color;
-    animation: slideUp 0.3s ease-out;
+    color: v.$positive-color;
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   &.position-down {
-    color: $negative-color;
-    animation: slideDown 0.3s ease-out;
+    color: v.$negative-color;
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-// Position change transition
-.position-change-move {
-  transition: transform 0.5s ease-out;
-}
-
+// Animations
 @keyframes slideUp {
   from {
-    transform: translateY(100%);
+    transform: translateY(100%) scale(0.8);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
 
 @keyframes slideDown {
   from {
-    transform: translateY(-100%);
+    transform: translateY(-100%) scale(0.8);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
 
-// Add smooth transitions for position changes
+// Position change transitions
+.position-change-move {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .position-change-enter-active,
 .position-change-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .position-change-enter-from,
 .position-change-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(20px) scale(0.95);
 }
 </style>
