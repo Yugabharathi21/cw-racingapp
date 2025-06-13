@@ -6,7 +6,7 @@ export const testState = {
   "currentTab": "current",
   "showOnlyCurated": true,
   activeRace: {
-    currentCheckpoint: 3,
+    currentCheckpoint: 2,
     totalCheckpoints: 12,
     totalLaps: 3,
     currentLap: 2,
@@ -20,22 +20,22 @@ export const testState = {
     ghosted: true,
     positions: [
       {
-        Checkpoint: 4,
+        Checkpoint: 6,
         RacerSource: 11,
         RacerName: "PlayerOne",
         PlayerVehicleEntity: 1001,
         Lap: 2,
-        Placement: 1,
+        Placement: 2,
         Finished: false,
         CheckpointTimes: []
       },
       {
-        Checkpoint: 3,
+        Checkpoint: 6,
         RacerSource: 12,
-        RacerName: "You",
+        RacerName: "Sodaputtiplayz21",
         PlayerVehicleEntity: 1002,
-        Lap: 2,
-        Placement: 2,
+        Lap: 4,
+        Placement: 1,
         Finished: false,
         CheckpointTimes: []
       }
@@ -50,10 +50,10 @@ export const testState = {
     checkpoint: 4,
     totalCheckpoints: 12,
     raceName: "Test Track",
-    InRace: true,       // ✅ Enables RaceHud
-    InCreator: false     // ❌ Disables EditorHud
+    InRace: true,       
+    InCreator: false  
   },
-  "countdown": 10,
+  "countdown": -1,
   "buttons": {},
   "creatorData": {},
   "baseData": {
