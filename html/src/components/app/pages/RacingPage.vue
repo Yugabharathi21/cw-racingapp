@@ -1,26 +1,26 @@
 <template>
   <div id="RacingPage" class="pagecontent">
-   <div class="tab-bar">
+    <div class="tab-bar">
       <v-tabs
         color="primary"
         v-model="tab"
         v-if="tab !== 'setup2'"
         v-on:update:model-value="fetchRelevantData()"
       >
-        <v-tab value="current">{{ translate('available_races') }} </v-tab>
+        <v-tab value="current">{{ translate('available_races') }}</v-tab>
         <v-tab value="map" v-if="!globalStore.baseData.data.hideMap">{{ translate('racing_map') }}</v-tab>
-        <v-tab value="bounties">{{ translate('bounties') }} </v-tab>
-        <v-tab value="setup" v-if="globalStore.baseData.data.auth.setup">{{ translate('setup') }} </v-tab>
+        <v-tab value="bounties">{{ translate('bounties') }}</v-tab>
+        <v-tab value="setup" v-if="globalStore.baseData.data.auth.setup">{{ translate('setup') }}</v-tab>
       </v-tabs>
       <Head2HeadInviteMenu v-if="globalStore.baseData.data.showH2H"></Head2HeadInviteMenu>
     </div>
-    <v-window v-model="tab" class="page-container">
-      <v-window-item  value="current" class="tabcontent">
 
+    <v-window v-model="tab" class="page-container">
+      <v-window-item value="current" class="tabcontent">
         <div class="current-race-container">
           <div id="current-race-selection" v-if="currentRace">
             <div class="mb-1" id="subheader">
-              <h3>{{ translate('active') }} </h3>
+              <h3>{{ translate('active') }}</h3>
             </div>
             <CurrentRaceCard
               :race="currentRace"
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="subheader mt-2">
-          <h3>{{ translate('available_races') }} </h3>
+          <h3>{{ translate('available_races') }}</h3>
         </div>
 
         <div
@@ -53,15 +53,18 @@
           :title="translate('no_races')"
         ></InfoText>
       </v-window-item>
-      <v-window-item  value="map" class="tabcontent">
+
+      <v-window-item value="map" class="tabcontent">
         <RacingMapTab></RacingMapTab>
       </v-window-item>
-      <v-window-item  value="bounties" class="tabcontent">
+
+      <v-window-item value="bounties" class="tabcontent">
         <BountiesTab></BountiesTab>
       </v-window-item>
+
       <v-window-item value="setup" class="tabcontent">
         <div class="subheader">
-          <h3 class="header-text">{{ translate('pick_track') }} </h3>
+          <h3 class="header-text">{{ translate('pick_track') }}</h3>
           <v-switch
             color="primary"
             v-model="globalStore.showOnlyCurated"
@@ -104,6 +107,7 @@
       </v-window-item>
     </v-window>
   </div>
+
   <SetupRaceDialog
     v-if="selectedTrack"
     :open="!!selectedTrack"
@@ -171,7 +175,7 @@ const getListedRaces = async () => {
   }
   isLoading.value = true;
   const res = await api.post("UiGetListedRaces");
-  races.value = res.data ;
+  races.value = res.data;
   isLoading.value = false;
 };
 
@@ -241,25 +245,31 @@ const fetchRelevantData = () => {
   else if (tab.value === "setup") getTracks();
 };
 
-const cancelRace = ()  => {
+const cancelRace = () => {
   getCurrent();
   getListedRaces();
-}
+};
 
 onMounted(() => {
   fetchRelevantData();
   selectedTrack.value = undefined;
 });
-
 </script>
 
 <style scoped lang="scss">
+@use "@/styles/variables" as v;
+
 .tab-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-right: 0.4em;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .available-races {
   display: flex;
   flex-direction: column;
@@ -282,5 +292,53 @@ onMounted(() => {
   margin-left: 0;
   margin-right: 0;
   width: 100%;
+}
+
+.subheader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.3px;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(v.$primary-color, 0.3);
+  border-radius: 50%;
+  border-top-color: v.$primary-color;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+:deep(.v-field.v-field) {
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+:deep(.v-field--focused) {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(v.$primary-color, 0.5);
 }
 </style>
