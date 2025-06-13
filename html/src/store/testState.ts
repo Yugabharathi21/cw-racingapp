@@ -1,12 +1,12 @@
 /* eslint-disable no-loss-of-precision */
 export const testState = {
-  "appIsOpen": false,
-  "hudIsOpen": true,
+  "appIsOpen": true,
+  "hudIsOpen": false,
   "currentPage": "racing",
   "currentTab": "current",
   "showOnlyCurated": true,
-  activeRace: {
-    currentCheckpoint: 2,
+  activeRace: { },
+  /* currentCheckpoint: 2,
     totalCheckpoints: 12,
     totalLaps: 3,
     currentLap: 2,
@@ -39,10 +39,9 @@ export const testState = {
         Finished: false,
         CheckpointTimes: []
       }
-    ]
-  },
-  activeHudData: {
-    currentSpeed: 120,
+    ] */
+  activeHudData: { },
+  /*currentSpeed: 120,
     gear: 3,
     lap: 1,
     position: 2,
@@ -51,8 +50,7 @@ export const testState = {
     totalCheckpoints: 12,
     raceName: "Test Track",
     InRace: true,       
-    InCreator: false  
-  },
+    InCreator: false  */
   "countdown": -1,
   "buttons": {},
   "creatorData": {},
