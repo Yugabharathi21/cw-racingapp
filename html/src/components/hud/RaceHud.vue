@@ -8,13 +8,19 @@
 
       <!-- Right Side: Race Info -->
       <div class="race__info">
+        <!-- GPS Navigation -->
+        <GpsNavigation
+          :checkpoint-number="globalStore.activeRace.currentCheckpoint"
+          :total-checkpoints="globalStore.activeRace.totalCheckpoints"
+        />
+        
         <!-- Track Info -->
         <div class="info-block track-info">
           <div class="track-icon">
             <v-icon>mdi-flag-checkered</v-icon>
           </div>
           <div class="track-name">{{ globalStore.activeRace.raceName }}</div>
-        </div>        <!-- Race Stats -->
+        </div><!-- Race Stats -->
         <div class="info-block stats">
           <!-- Race Timings -->
           <RaceTimings 
@@ -78,6 +84,7 @@ import { computed } from "vue";
 import { translate } from "@/helpers/translate";
 import RacerList from "./RacerList.vue";
 import RaceTimings from "./RaceTimings.vue";
+import GpsNavigation from "./GpsNavigation.vue";
 
 const globalStore = useGlobalStore();
 

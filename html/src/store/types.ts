@@ -367,3 +367,13 @@ export type Head2headData = {
   invitee: string | undefined;
   current: Head2HeadCurrent;
 };
+
+export type GpsData = {
+  isWaypointSet: boolean;
+  distance: number;
+  rotation: number;
+  nextTurn?: {
+    distance: number;
+    rotation: number;
+  };
+};

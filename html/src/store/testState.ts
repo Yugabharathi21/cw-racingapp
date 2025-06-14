@@ -5,10 +5,10 @@ export const testState = {
   "currentPage": "racing",
   "currentTab": "current",
   "showOnlyCurated": true,
-  activeRace: { currentCheckpoint: 2,
+  activeRace: { currentCheckpoint: 3,
     totalCheckpoints: 12,
     totalLaps: 3,
-    currentLap: 2,
+    currentLap: 1,
     raceStarted: true,
     raceName: "Downtown Dash",
     time: 55000,
@@ -24,7 +24,7 @@ export const testState = {
         RacerName: "PlayerOne",
         PlayerVehicleEntity: 1001,
         Lap: 2,
-        Placement: 2,
+        Placement: 1,
         Finished: false,
         CheckpointTimes: []
       },
@@ -34,7 +34,7 @@ export const testState = {
         RacerName: "Sodaputtiplayz21",
         PlayerVehicleEntity: 1002,
         Lap: 4,
-        Placement: 1,
+        Placement: 2,
         Finished: false,
         CheckpointTimes: []
       }
