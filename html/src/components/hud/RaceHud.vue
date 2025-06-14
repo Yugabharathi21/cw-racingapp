@@ -14,10 +14,14 @@
             <v-icon>mdi-flag-checkered</v-icon>
           </div>
           <div class="track-name">{{ globalStore.activeRace.raceName }}</div>
-        </div>
-
-        <!-- Race Stats -->
+        </div>        <!-- Race Stats -->
         <div class="info-block stats">
+          <!-- Race Timings -->
+          <RaceTimings 
+            :time="globalStore.activeRace.time || 0"
+            :total-time="globalStore.activeRace.totalTime || 0"
+            :best-lap="globalStore.activeRace.bestLap || 0"
+          />
           <div class="stats-grid">
             <!-- Position -->
             <div class="stat-module position" v-if="globalStore.activeRace.totalRacers && globalStore.activeRace.totalRacers !== 1">
@@ -55,30 +59,7 @@
                   <span :key="'lap' + globalStore.activeRace.currentLap">{{ lapText }}</span>
                 </TransitionGroup>
               </div>
-            </div>
-          </div>
-
-          <!-- Times -->
-          <div class="times-block">
-            <div class="time-module current">
-              <div class="time-icon">
-                <v-icon>mdi-clock-outline</v-icon>
-              </div>
-              <span class="time-value">{{ msToHMS(globalStore.activeRace.time) }}</span>
-            </div>
-            <div class="time-module total">
-              <div class="time-icon">
-                <v-icon>mdi-timer-outline</v-icon>
-              </div>
-              <span class="time-value">{{ msToHMS(globalStore.activeRace.totalTime) }}</span>
-            </div>
-            <div class="time-module best">
-              <div class="time-icon">
-                <v-icon>mdi-star-outline</v-icon>
-              </div>
-              <span class="time-value">{{ msToHMS(globalStore.activeRace.bestLap) }}</span>
-            </div>
-          </div>
+            </div>          </div>
         </div>
 
         <!-- Ghost Mode Indicator -->
@@ -94,9 +75,9 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/store/global";
 import { computed } from "vue";
-import { msToHMS } from "@/helpers/msToHMS";
 import { translate } from "@/helpers/translate";
 import RacerList from "./RacerList.vue";
+import RaceTimings from "./RaceTimings.vue";
 
 const globalStore = useGlobalStore();
 
@@ -140,14 +121,20 @@ const lapText = computed(() => {
 }
 
 .info-block {
-  background: rgba(0, 0, 0, 0.75);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    0 0 10px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
   border-radius: 6px;
   padding: 0.4rem 0.6rem;
   min-width: 160px;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+  }
 }
 
 .track-info {
@@ -243,69 +230,31 @@ const lapText = computed(() => {
   }
 }
 
-.times-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  margin-top: 0.3rem;
-  padding-top: 0.3rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
 
-.time-module {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.15rem 0.3rem;
-  transition: all 0.2s ease;
-
-  .time-icon {
-    color: v.$primary-color-light;
-    opacity: 0.6;
-    font-size: 0.8rem;
-  }
-
-  .time-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: rgba(v.$text-color, 0.8);
-    letter-spacing: 0.05em;
-  }
-
-  &.best {
-    .time-icon {
-      color: v.$primary-color-light;
-      opacity: 0.9;
-    }
-    .time-value {
-      color: v.$primary-color-light;
-      font-weight: 600;
-    }
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-  }
-}
 
 .ghost-indicator {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.3);
   color: v.$text-color;
   font-size: 0.7rem;
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   letter-spacing: 0.15em;
-  opacity: 0.6;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.8;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 1;
+  }
   
   .v-icon {
     font-size: 0.8rem;
-    opacity: 0.8;
+    opacity: 0.9;
   }
 }
 

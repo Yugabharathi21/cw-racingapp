@@ -13,7 +13,7 @@ const props = defineProps<{
 }>();
 </script>
 
-<style scoped lang="scss">
+<style scoped l-ang="scss">
 .infotext {
   width: 100%;
   display: flex;

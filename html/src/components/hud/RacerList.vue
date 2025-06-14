@@ -129,20 +129,65 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
   min-width: 280px;
 }
 
-@keyframes borderGlow {
+@keyframes raceLine {
   0% {
-    background-position: 0% 50%;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+  }
+  15% {
+    opacity: 0.5;
+  }
+  25% {
+    top: 0;
+    left: 100%;
+    transform: translateX(0);
+  }
+  26% {
+    top: 0;
+    left: 100%;
+    transform: rotate(90deg) translateX(-100%);
+  }
+  40% {
+    opacity: 0.5;
   }
   50% {
-    background-position: 100% 50%;
+    top: 100%;
+    left: 100%;
+    transform: rotate(90deg) translateX(0);
+  }
+  51% {
+    top: 100%;
+    left: 100%;
+    transform: rotate(180deg) translateX(-100%);
+  }
+  65% {
+    opacity: 0.5;
+  }
+  75% {
+    top: 100%;
+    left: 0;
+    transform: rotate(180deg) translateX(0);
+  }
+  76% {
+    top: 100%;
+    left: 0;
+    transform: rotate(270deg) translateX(-100%);
+  }
+  90% {
+    opacity: 0.5;
   }
   100% {
-    background-position: 0% 50%;
+    top: 0;
+    left: 0;
+    transform: rotate(270deg) translateX(0);
+    opacity: 0;
   }
 }
 
 .box {
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.4);
   width: 100%;
   font-size: 0.95em;
   height: 2.6em;
@@ -150,42 +195,88 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
   align-items: center;
   padding: 0 0.4em;
   border-radius: 4px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
   position: relative;
   overflow: hidden;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.2);
 
-  // Glowing border effect
+  &:hover {
+    transform: translateX(2px) scale(1.01);
+    background: rgba(0, 0, 0, 0.45);
+  }// Racing line effect
   &::before {
     content: '';
     position: absolute;
+    width: 20%;
+    height: 1px;
+    background: v.$primary-color-light;
+    filter: blur(1px);
+    opacity: 0;
+    animation: raceLine 2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+
+  // Highlight corners
+  &::after {
+    content: '';
+    position: absolute;
     inset: 0;
-    padding: 1px;
     border-radius: 4px;
-    background: linear-gradient(
-      90deg,
-      rgba(v.$primary-color, 0.3),
-      rgba(v.$primary-color-light, 0.1),
-      rgba(v.$primary-color, 0.3)
-    );
-    background-size: 200% 100%;
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    border: 1px solid transparent;
+    background: linear-gradient(90deg,
+        v.$primary-color-light,
+        transparent 25%,
+        transparent 75%,
+        v.$primary-color-light
+      ) border-box;    mask: linear-gradient(#fff 0 0) padding-box, 
+         linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, 
+                 linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: borderGlow 4s linear infinite;
+    opacity: 0.1;
+  }
+  &.me {
+    &::before {
+      width: 25%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        v.$primary-color-light,
+        v.$primary-color,
+        v.$primary-color-light,
+        transparent
+      );
+      filter: blur(2px);
+      animation: raceLine 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    &::after {
+      border-width: 2px;
+      background: linear-gradient(90deg,
+        v.$primary-color,
+        transparent 25%,
+        transparent 75%,
+        v.$primary-color
+      ) border-box;
+      opacity: 0.2;
+    }
   }
 
   &:hover {
     transform: translateX(2px);
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
   }
 
   &.me {
     background: linear-gradient(
       90deg,
-      rgba(v.$primary-color, 0.15),
-      rgba(0, 0, 0, 0.75)
+      rgba(v.$primary-color, 0.12),
+      rgba(0, 0, 0, 0.4)
     );
 
     &::before {
@@ -206,20 +297,46 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
     .name {
       color: v.$primary-color-light;
     }
-  }
-
-  &.finished {
+  }  &.finished {
+    background: rgba(0, 0, 0, 0.35);
+    
     &::before {
+      width: 15%;
       background: linear-gradient(
         90deg,
-        rgba(v.$positive-color, 0.3),
-        rgba(v.$positive-color, 0.1),
-        rgba(v.$positive-color, 0.3)
+        transparent,
+        v.$positive-color,
+        v.$positive-color,
+        transparent
       );
-      background-size: 200% 100%;
+      filter: blur(1.5px);
+      animation: raceLine 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
+
+    &::after {
+      background: linear-gradient(90deg,
+        v.$positive-color,
+        transparent 35%,
+        transparent 65%,
+        v.$positive-color
+      ) border-box;
+      opacity: 0.15;
+    }
+
     .number {
       background: v.$positive-color;
+      opacity: 0.9;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.45);
+      &::before {
+        width: 20%;
+        animation: raceLine 2s cubic-bezier(0.3, 0, 0.7, 1) infinite;
+      }
+      &::after {
+        opacity: 0.25;
+      }
     }
   }
 }

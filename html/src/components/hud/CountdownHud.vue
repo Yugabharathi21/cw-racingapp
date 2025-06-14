@@ -1,9 +1,16 @@
 <template>
   <Transition name="fade-scale">
-    <div class="countdown" v-if="globalStore.countdown !== -1">
+  <div class="countdown" v-if="globalStore.countdown !== -1">
       <div class="countdown__wrapper">
-        <!-- F1 Traffic Lights - Single Row -->
-        <div class="traffic-lights">
+        <!-- Big Number Display for counts > 5 -->
+        <TransitionGroup name="countdown-number" v-if="globalStore.countdown > 5">
+          <div :key="'big-' + globalStore.countdown" class="countdown__number countdown__number--large">
+            {{ globalStore.countdown }}
+          </div>
+        </TransitionGroup>
+
+        <!-- F1 Traffic Lights - Show only for countdown 5 and below -->
+        <div class="traffic-lights" v-else>
           <div class="lights-container">
             <div class="light-row">
               <div class="light" :class="{ 
@@ -26,11 +33,13 @@
                 'active': isLightActive(4), 
                 'green': globalStore.countdown === 0 
               }"></div>
-            </div>
-            <!-- Subtle Number Display -->
+            </div>            <!-- Subtle Number Display -->
             <div class="number-display">
               <TransitionGroup name="countdown-number">
-                <div v-if="globalStore.countdown > 0" :key="globalStore.countdown" class="countdown__number">
+                <div v-if="globalStore.countdown > 5" :key="'pre-' + globalStore.countdown" class="countdown__number countdown__number--large">
+                  {{ globalStore.countdown }}
+                </div>
+                <div v-else-if="globalStore.countdown > 0" :key="'count-' + globalStore.countdown" class="countdown__number">
                   {{ globalStore.countdown }}
                 </div>
                 <div v-else :key="'go'" class="countdown__go">
@@ -54,20 +63,20 @@ import { computed } from "vue";
 
 const globalStore = useGlobalStore();
 
-// Updated F1-style light sequence timing (5 lights)
+// F1-style light sequence timing (5 lights)
 const isLightActive = (index: number) => {
   const count = globalStore.countdown;
   
   // All lights green for GO!
   if (count === 0) return true;
   
-  // Progressive lighting sequence:
+  // Progressive lighting sequence for 5 and below:
   // 5: 1 light
   // 4: 2 lights
   // 3: 3 lights
   // 2: 4 lights
   // 1: 5 lights
-  // 0: all green
+  // 0: all green (handled above)
   const activeLights = 6 - count; // Convert countdown to number of active lights
   return index < activeLights;
 };
@@ -90,8 +99,7 @@ const countdownColor = computed(() => {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  background: rgba(v.$background-color-dark, 0.4);
-  backdrop-filter: blur(4px);
+  background: transparent; // Remove dark background
 }
 
 .countdown__wrapper {
@@ -200,8 +208,7 @@ const countdownColor = computed(() => {
   margin-top: 0.5rem;
 }
 
-.countdown__number,
-.countdown__go {
+.countdown__number {
   position: absolute;
   font-family: "Rajdhani", sans-serif;
   font-weight: 600;
@@ -209,17 +216,29 @@ const countdownColor = computed(() => {
   font-size: 1rem;
   letter-spacing: 0.05em;
   opacity: 0.7;
-}
-
-.countdown__number {
   color: rgba(255, 255, 255, 0.8);
+
+  &--large {
+    position: relative; // Override absolute positioning for large numbers
+    font-size: 8rem; // Bigger size for better visibility
+    font-weight: 700;
+    opacity: 0.9;
+    color: #ffffff;
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.5),
+      0 0 40px rgba(255, 255, 255, 0.3);
+    margin: 2rem 0; // Add some spacing
+  }
 }
 
 .countdown__go {
+  position: absolute;
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 700;
+  text-align: center;
   color: #00ff00;
   text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
   font-size: 1.1rem;
-  font-weight: 700;
 }
 
 .countdown__rays {
