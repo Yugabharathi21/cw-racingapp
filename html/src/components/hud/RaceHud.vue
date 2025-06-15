@@ -121,19 +121,19 @@ const lapText = computed(() => {
 }
 
 .info-block {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 0 10px rgba(0, 0, 0, 0.1),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(6px);
-  border-radius: 6px;
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 4px;
   padding: 0.4rem 0.6rem;
   min-width: 160px;
-  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.9);
   }
 }
 
@@ -145,7 +145,7 @@ const lapText = computed(() => {
 
   .track-icon {
     color: v.$primary-color-light;
-    opacity: 0.8;
+    opacity: 0.9;
     font-size: 0.9rem;
   }
 
@@ -155,7 +155,7 @@ const lapText = computed(() => {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    opacity: 0.9;
+    opacity: 0.95;
   }
 }
 
@@ -174,17 +174,19 @@ const lapText = computed(() => {
   align-items: center;
   gap: 0.3rem;
   padding: 0.2rem 0.4rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
   transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 1);
+    border-color: rgba(255, 255, 255, 0.12);
   }
 
   .stat-icon {
     color: v.$primary-color-light;
-    opacity: 0.8;
+    opacity: 0.9;
     font-size: 0.9rem;
   }
 
@@ -199,7 +201,8 @@ const lapText = computed(() => {
 
   &.position {
     grid-column: span 2;
-    background: rgba(v.$primary-color, 0.1);
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     
     .stat-content {
       font-size: 1.4rem;
@@ -207,14 +210,14 @@ const lapText = computed(() => {
     }
     
     .stat-divider {
-      opacity: 0.3;
+      opacity: 0.5;
       margin: 0 0.1rem;
       color: v.$text-color;
     }
     
     .total {
       font-size: 0.8em;
-      opacity: 0.5;
+      opacity: 0.7;
       color: v.$text-color;
     }
   }
@@ -230,25 +233,23 @@ const lapText = computed(() => {
   }
 }
 
-
-
 .ghost-indicator {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: v.$text-color;
   font-size: 0.7rem;
   padding: 0.15rem 0.4rem;
-  border-radius: 4px;
+  border-radius: 3px;
   letter-spacing: 0.15em;
-  opacity: 0.8;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(4px);
+  opacity: 0.9;
+  backdrop-filter: blur(8px);
   transition: all 0.2s ease;
   
   &:hover {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.95);
     opacity: 1;
   }
   
