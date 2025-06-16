@@ -121,222 +121,97 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
 .racers-holder {
   display: flex;
   flex-direction: column;
-  gap: 0.35em;
-  padding: 0.4em;
+  gap: 0.25rem;
+  padding: 0.35rem;
   font-family: 'Rajdhani', sans-serif;
   position: relative;
   width: max-content;
   min-width: 280px;
 }
 
-@keyframes raceLine {
-  0% {
-    opacity: 0;
-    top: 0;
-    left: 0;
-    transform: translateX(-100%);
-  }
-  15% {
-    opacity: 0.5;
-  }
-  25% {
-    top: 0;
-    left: 100%;
-    transform: translateX(0);
-  }
-  26% {
-    top: 0;
-    left: 100%;
-    transform: rotate(90deg) translateX(-100%);
-  }
-  40% {
-    opacity: 0.5;
-  }
-  50% {
-    top: 100%;
-    left: 100%;
-    transform: rotate(90deg) translateX(0);
-  }
-  51% {
-    top: 100%;
-    left: 100%;
-    transform: rotate(180deg) translateX(-100%);
-  }
-  65% {
-    opacity: 0.5;
-  }
-  75% {
-    top: 100%;
-    left: 0;
-    transform: rotate(180deg) translateX(0);
-  }
-  76% {
-    top: 100%;
-    left: 0;
-    transform: rotate(270deg) translateX(-100%);
-  }
-  90% {
-    opacity: 0.5;
-  }
-  100% {
-    top: 0;
-    left: 0;
-    transform: rotate(270deg) translateX(0);
-    opacity: 0;
-  }
+@keyframes glowPulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
 }
 
 .box {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.85);
   width: 100%;
-  font-size: 0.95em;
-  height: 2.6em;
+  font-size: 0.9rem;
+  height: 2.4rem;
   display: flex;
   align-items: center;
-  padding: 0 0.4em;
-  border-radius: 4px;
-  backdrop-filter: blur(6px);
+  padding: 0 0.5rem;
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   position: relative;
   overflow: hidden;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
-  &:hover {
-    transform: translateX(2px) scale(1.01);
-    background: rgba(0, 0, 0, 0.45);
-  }// Racing line effect
   &::before {
     content: '';
     position: absolute;
-    width: 20%;
-    height: 1px;
-    background: v.$primary-color-light;
-    filter: blur(1px);
-    opacity: 0;
-    animation: raceLine 2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  }
-
-  // Highlight corners
-  &::after {
-    content: '';
-    position: absolute;
     inset: 0;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    background: linear-gradient(90deg,
-        v.$primary-color-light,
-        transparent 25%,
-        transparent 75%,
-        v.$primary-color-light
-      ) border-box;    mask: linear-gradient(#fff 0 0) padding-box, 
-         linear-gradient(#fff 0 0);
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, 
-                 linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0.1;
-  }
-  &.me {
-    &::before {
-      width: 25%;
-      height: 2px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        v.$primary-color-light,
-        v.$primary-color,
-        v.$primary-color-light,
-        transparent
-      );
-      filter: blur(2px);
-      animation: raceLine 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    &::after {
-      border-width: 2px;
-      background: linear-gradient(90deg,
-        v.$primary-color,
-        transparent 25%,
-        transparent 75%,
-        v.$primary-color
-      ) border-box;
-      opacity: 0.2;
-    }
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.03),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
 
   &:hover {
     transform: translateX(2px);
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    
+    &::before {
+      opacity: 1;
+    }
   }
 
   &.me {
-    background: linear-gradient(
-      90deg,
-      rgba(v.$primary-color, 0.12),
-      rgba(0, 0, 0, 0.4)
-    );
-
-    &::before {
-      background: linear-gradient(
-        90deg,
-        rgba(v.$primary-color-light, 0.5),
-        rgba(v.$primary-color, 0.3),
-        rgba(v.$primary-color-light, 0.5)
-      );
-      background-size: 200% 100%;
-    }
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid v.$primary-color;
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      inset 0 0 12px rgba(v.$primary-color, 0.1);
 
     .number {
-      background: v.$primary-color-light;
-      color: rgba(0, 0, 0, 0.9);
+      background: v.$primary-color;
+      color: #000;
       font-weight: 700;
-    }
-    .name {
-      color: v.$primary-color-light;
-    }
-  }  &.finished {
-    background: rgba(0, 0, 0, 0.35);
-    
-    &::before {
-      width: 15%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        v.$positive-color,
-        v.$positive-color,
-        transparent
-      );
-      filter: blur(1.5px);
-      animation: raceLine 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      box-shadow: 0 0 10px rgba(v.$primary-color, 0.3);
+      animation: glowPulse 2s ease-in-out infinite;
     }
 
-    &::after {
-      background: linear-gradient(90deg,
-        v.$positive-color,
-        transparent 35%,
-        transparent 65%,
-        v.$positive-color
-      ) border-box;
-      opacity: 0.15;
+    .name {
+      color: v.$primary-color-light;
+      text-shadow: 0 0 10px rgba(v.$primary-color, 0.3);
     }
+
+    .position-change-indicator {
+      color: v.$primary-color-light;
+    }
+  }
+
+  &.finished {
+    background: rgba(0, 0, 0, 0.85);
+    border-color: rgba(v.$positive-color, 0.3);
 
     .number {
       background: v.$positive-color;
-      opacity: 0.9;
+      color: #000;
     }
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.45);
-      &::before {
-        width: 20%;
-        animation: raceLine 2s cubic-bezier(0.3, 0, 0.7, 1) infinite;
-      }
-      &::after {
-        opacity: 0.25;
-      }
+    .name {
+      color: rgba(255, 255, 255, 0.7);
     }
   }
 }
@@ -344,22 +219,23 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
 .position-wrapper {
   display: flex;
   align-items: center;
-  gap: 0.3em;
-  min-width: 3.6em;
+  gap: 0.25rem;
+  min-width: 3.2rem;
 }
 
 .number {
-  background: rgba(v.$primary-color, 0.9);
-  color: v.$text-color;
-  width: 1.8em;
-  height: 1.8em;
+  background: rgba(255, 165, 0, 0.2);
+  color: rgba(255, 165, 0, 0.9);
+  width: 1.8rem;
+  height: 1.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 2px;
   font-weight: 600;
-  font-size: 1em;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 165, 0, 0.1);
 }
 
 .racer-info {
@@ -367,16 +243,16 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
   align-items: center;
   justify-content: space-between;
   flex: 1;
-  padding: 0 0.6em;
-  gap: 0.5em;
+  padding: 0 0.5rem;
+  gap: 0.5rem;
 }
 
 .name {
-  color: v.$text-color;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  max-width: 18em;
+  max-width: 18rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -384,34 +260,33 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
 }
 
 .difference {
-  color: rgba(v.$text-color, 0.8);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
-  font-size: 0.85em;
-  min-width: 4.5em;
+  font-size: 0.8rem;
+  min-width: 4rem;
   text-align: right;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: -0.02em;
 }
 
 .position-change-indicator {
-  width: 1em;
+  width: 1rem;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   opacity: 0.9;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   
   &.position-up {
     color: v.$positive-color;
-    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideUp 0.3s ease;
   }
   
   &.position-down {
     color: v.$negative-color;
-    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideDown 0.3s ease;
   }
 }
 
-// Animations
 @keyframes slideUp {
   from {
     transform: translateY(100%) scale(0.8);
@@ -434,14 +309,13 @@ const getTimeDifference = (racer1: ActiveRacer, racer2: ActiveRacer) => {
   }
 }
 
-// Position change transitions
 .position-change-move {
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s ease;
 }
 
 .position-change-enter-active,
 .position-change-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s ease;
 }
 
 .position-change-enter-from,

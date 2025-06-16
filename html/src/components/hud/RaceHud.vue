@@ -99,6 +99,7 @@ const lapText = computed(() => {
   right: 0;
   z-index: 100;
   font-family: 'Rajdhani', sans-serif;
+  background: transparent;
 }
 
 .race__container {
@@ -107,10 +108,12 @@ const lapText = computed(() => {
   align-items: flex-start;
   padding: 0.5rem 1rem;
   gap: 1rem;
+  background: transparent;
 }
 
 .race__positions {
   flex: 0 1 auto;
+  background: transparent;
 }
 
 .race__info {
@@ -118,22 +121,22 @@ const lapText = computed(() => {
   flex-direction: column;
   gap: 0.35rem;
   align-items: flex-end;
+  background: transparent;
 }
 
 .info-block {
-  background: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.4),
-    inset 0 1px rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
   border-radius: 4px;
   padding: 0.4rem 0.6rem;
   min-width: 160px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.9);
   }
 }
 
@@ -146,7 +149,6 @@ const lapText = computed(() => {
   .track-icon {
     color: v.$primary-color-light;
     opacity: 0.9;
-    font-size: 0.9rem;
   }
 
   .track-name {
@@ -174,13 +176,13 @@ const lapText = computed(() => {
   align-items: center;
   gap: 0.3rem;
   padding: 0.2rem 0.4rem;
-  background: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 3px;
   transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(0, 0, 0, 1);
+    background-color: rgba(0, 0, 0, 1);
     border-color: rgba(255, 255, 255, 0.12);
   }
 
