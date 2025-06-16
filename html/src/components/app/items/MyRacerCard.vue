@@ -309,151 +309,111 @@ const deleteUser = async () => {
 @use "@/styles/variables" as v;
 
 .racer-card {
-  width: 100%;
-  background: linear-gradient(165deg, rgba(20, 20, 20, 0.95), rgba(15, 15, 15, 0.9));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  overflow: hidden;
-  backdrop-filter: blur(10px);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:hover {
-    border-color: rgba(v.$primary-color, 0.15);
-    background: linear-gradient(165deg, rgba(25, 25, 25, 0.95), rgba(20, 20, 20, 0.9));
-  }
+  background: rgba(0, 0, 0, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 240px;
+  padding: 0.75rem !important;
 }
 
 .card-wrapper {
   display: flex;
-  gap: 1rem;
-  padding: 0.75rem;
-  align-items: flex-start;
-
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-  }
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .racer-info {
   flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .racer-header {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .name-section {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-width: 0;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .racer-name {
-  margin: 0;
   font-size: 1rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  flex: 1;
+  font-weight: 500;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .status-badges {
   display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
-
-  .v-chip {
-    font-size: 0.8rem;
+  gap: 0.35rem;
+  
+  :deep(.v-chip) {
+    height: 24px !important;
+    font-size: 0.75rem;
     font-weight: 500;
+    
+    .v-icon {
+      font-size: 14px;
+      margin-right: 4px;
+    }
   }
 }
 
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.75rem;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
 }
 
 .stat-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+
+  .v-icon {
+    opacity: 0.9;
+  }
 
   .stat-label {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
     margin-right: auto;
   }
 
   .stat-value {
+    font-family: 'JetBrains Mono', monospace;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.9);
-
-    &.allow-select {
-      user-select: all;
-    }
   }
 }
 
 .created-by {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: 0.35rem;
+  font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.6);
-  padding-top: 0.25rem;
+  margin-top: 0.25rem;
 }
 
 .action-bar {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex-shrink: 0;
-  min-width: 140px;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
 
-  @media (max-width: 700px) {
-    flex-direction: row;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    padding-top: 0.75rem;
-  }
-
-  @media (max-width: 500px) {
-    flex-direction: column;
-  }
-
-  .action-btn {
-    height: 36px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border-radius: 4px;
-    padding: 0 1rem;
+  .v-btn {
+    height: 28px !important;
+    font-size: 0.75rem !important;
+    min-height: unset !important;
     text-transform: none;
-    white-space: nowrap;
-    width: 100%;
+    letter-spacing: 0;
 
     .v-icon {
-      margin-right: 4px;
+      font-size: 14px !important;
+      margin-right: 4px !important;
     }
   }
 }
