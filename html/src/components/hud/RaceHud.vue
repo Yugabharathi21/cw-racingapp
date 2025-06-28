@@ -130,9 +130,9 @@ const lapText = computed(() => {
   border-radius: 4px;
   padding: 0.4rem 0.6rem;
   min-width: 160px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
 
   &:hover {

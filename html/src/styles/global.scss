@@ -167,3 +167,32 @@ body {
   backdrop-filter: saturate(180%) blur(10px);
   opacity: 100;
 }
+
+// Reset background for NUI compatibility
+html,
+body,
+#app {
+  background: transparent !important;
+  box-shadow: none !important;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  outline: none;
+}
+
+// Global NUI layer fixes
+.v-application {
+  background: transparent !important;
+  
+  &__wrap {
+    background: transparent !important;
+  }
+}
+
+// Ensure all top-level containers are transparent
+.app-container,
+.race-container,
+.hud-container {
+  background: transparent !important;
+  box-shadow: none !important;
+}

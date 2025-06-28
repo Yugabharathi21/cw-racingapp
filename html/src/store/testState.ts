@@ -1,7 +1,7 @@
 /* eslint-disable no-loss-of-precision */
 export const testState = {
-  "appIsOpen": true,
-  "hudIsOpen": false,
+  "appIsOpen": false,
+  "hudIsOpen": true,
   "currentPage": "racing",
   "currentTab": "current",
   "showOnlyCurated": true,
